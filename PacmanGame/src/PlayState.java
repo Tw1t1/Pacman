@@ -8,7 +8,7 @@ public class PlayState extends GameState {
 	private boolean active;
 	private boolean gameOver;
 	private float deltaTimeAverage;
-	private Map map;
+	private Map map; 
 	private Navbar navbar;
 	private Pacman pacman;
 	private List<Ghost> ghosts;
@@ -21,6 +21,7 @@ public class PlayState extends GameState {
 		pacman = new Pacman();
 		ghosts = new ArrayList<>();
 		coins = new ArrayList<>();
+		PlayerData.playerLives = 3;
 		ghosts.add(new Ghost(300, 200));
 		ghosts.add(new Ghost(160, 200));
 		ghosts.add(new Ghost(230, 100));
