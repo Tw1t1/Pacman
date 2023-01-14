@@ -16,11 +16,7 @@
 	</natures>
 	<filteredResources>
 		<filter>
-<<<<<<< HEAD
-			<id>1673699008749</id>
-=======
 			<id>1673689508222</id>
->>>>>>> 1fcfa30 (feat: creation of the opening screen, game screen with map and game over screen)
 			<name></name>
 			<type>30</type>
 			<matcher>
