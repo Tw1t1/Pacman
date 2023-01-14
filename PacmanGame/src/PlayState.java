@@ -7,16 +7,17 @@ import java.awt.Graphics;
 public class PlayState extends GameState {
 	private boolean active;
 	private boolean gameOver;
-	private int score;
 	private float deltaTimeAverage;
-	private String message;
+	private Map map;
+	private Navbar navbar;
 	private Pacman pacman;
 	private List<Ghost> ghosts;
 	private List<Coin> coins;
 
 	public PlayState() {
-		score = 0;
 		gameOver = false;
+		map = new Map();
+		navbar = new Navbar();
 		pacman = new Pacman();
 		ghosts = new ArrayList<>();
 		coins = new ArrayList<>();
@@ -36,7 +37,7 @@ public class PlayState extends GameState {
 			pacman.reset();
 			resetCoins();
 			resetGhosts();
-			score = 0;
+			PlayerData.playerScore = 0;
 			gameOver = false;
 		}
 	}
@@ -53,7 +54,12 @@ public class PlayState extends GameState {
 
 	public void update(long deltaTime) {
 		if (gameOver) {
-			active = false;
+			PlayerData.playerLives--;
+			if (PlayerData.playerLives == 0) {
+				active = false;
+			} else {
+
+			}
 		} else {
 			deltaTimeAverage = deltaTimeAverage * 0.9f + 0.1f * (float) deltaTime;
 			pacman.pacmanMovement(deltaTime);
@@ -74,15 +80,20 @@ public class PlayState extends GameState {
 	}
 
 	public String next() {
-		return "Welcome";
+		if (PlayerData.playerLives == 0) {
+			return "Gameover";
+		} else {
+			return "Play";
+		}
 	}
 
 	public void render(GameFrameBuffer aGameFrameBuffer) {
 		Graphics g = aGameFrameBuffer.graphics();
+		map.render(g);
+		navbar.render(g);
 		drawPacman(g);
 		drawGhosts(g);
 		drawCoins(g);
-		drawScore(g);
 	}
 
 	private void ghostsCollision() {
@@ -95,7 +106,7 @@ public class PlayState extends GameState {
 	private void coinsCollision() {
 		for (Coin c : coins) {
 			if (c.isVisible() && c.checkCollision(pacman))
-				score += c.coinScore();
+				PlayerData.playerScore += c.coinScore();
 		}
 	}
 
@@ -129,12 +140,5 @@ public class PlayState extends GameState {
 			if (c.isVisible())
 				g.fillOval((int) c.getX(), (int) c.getY(), c.getWidth(), c.getHeight());
 		}
-	}
-
-	private void drawScore(Graphics g) {
-		message = "Score: " + score;
-		g.setColor(Color.white);
-		g.setFont(new Font("Ariel", Font.BOLD, 20));
-		g.drawString(message, 10, 20);
 	}
 }

@@ -3,8 +3,8 @@ import javax.swing.JFrame;
 
 public class Game extends JFrame {
 
-  static final int WIDTH = 640;
-  static final int HEIGHT = 480;
+  static final int WIDTH = 1200;
+  static final int HEIGHT = 800;
   
   GameStateMachine stateMachine;
   

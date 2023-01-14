@@ -62,7 +62,7 @@ public class Ghost extends GameObject {
     }
 
     public Image getImage() {
-        return Toolkit.getDefaultToolkit().getImage("PacmanGame/src/utils/redGhost.png");
+        return Toolkit.getDefaultToolkit().getImage("PacmanGame/src/utils/pinkGhost.png");
     }
 
 }
