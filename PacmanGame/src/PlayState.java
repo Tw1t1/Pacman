@@ -76,7 +76,7 @@ public class PlayState extends GameState {
 	}
 
 	private void ghostsCollision() {
-		if (pacman.checkCollision(ghosts))
+		if (pacman.checkCollisionArray(ghosts))
 			gameOver = true;
 	}
 
