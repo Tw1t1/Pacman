@@ -11,6 +11,10 @@ public class PlayerData {
         playerName = score; 
     }
 
+    public static int getScore() {
+        return playerScore;
+    }
+
     public static void setLives(int life) {
         playerLives = life; 
     }
