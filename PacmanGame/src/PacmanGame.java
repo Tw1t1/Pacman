@@ -1,7 +1,7 @@
 
-public class DemoGame extends Game {
+public class PacmanGame extends Game {
 
-	public DemoGame() {
+	public PacmanGame() {
 		GameState welcome = new WelcomeState();
 		GameState play = new PlayState();
 		stateMachine.installState("Play", play);
@@ -10,7 +10,7 @@ public class DemoGame extends Game {
 	}
 	
 	public static void main( String[] args ) {
-	    Game app = new DemoGame();
+	    Game app = new PacmanGame();
 	    app.setTitle( "A Simple Game" );
 	    app.setVisible( true );
 	    app.run();
