@@ -10,6 +10,8 @@ public class PlayState extends GameState {
 	private int score;
 	private float deltaTimeAverage;
 	private String message;
+	private Map map;
+	private Navbar navbar;
 	private Pacman pacman;
 	private List<Ghost> ghosts;
 	private List<Coin> coins;
@@ -17,6 +19,8 @@ public class PlayState extends GameState {
 	public PlayState() {
 		score = 0;
 		gameOver = false;
+		map = new Map();
+		navbar = new Navbar();
 		pacman = new Pacman();
 		ghosts = new ArrayList<>();
 		coins = new ArrayList<>();
@@ -74,15 +78,22 @@ public class PlayState extends GameState {
 	}
 
 	public String next() {
-		return "Welcome";
+		if (PlayerData.playerLives == 0) {
+            return "Gameover";
+        } else {
+            return "Play";
+        }
 	}
 
 	public void render(GameFrameBuffer aGameFrameBuffer) {
+		
 		Graphics g = aGameFrameBuffer.graphics();
-		drawPacman(g);
-		drawGhosts(g);
-		drawCoins(g);
-		drawScore(g);
+		map.render(g);
+    	navbar.render(g);
+		// drawPacman(g);
+		// drawGhosts(g);
+		// drawCoins(g);
+		// drawScore(g);
 	}
 
 	private void ghostsCollision() {
@@ -98,6 +109,7 @@ public class PlayState extends GameState {
 				score += c.coinScore();
 		}
 	}
+	
 
 	private void resetCoins() {
 		for (Coin c : coins)
@@ -129,12 +141,5 @@ public class PlayState extends GameState {
 			if (c.isVisible())
 				g.fillOval((int) c.getX(), (int) c.getY(), c.getWidth(), c.getHeight());
 		}
-	}
-
-	private void drawScore(Graphics g) {
-		message = "Score: " + score;
-		g.setColor(Color.white);
-		g.setFont(new Font("Ariel", Font.BOLD, 20));
-		g.drawString(message, 10, 20);
 	}
 }

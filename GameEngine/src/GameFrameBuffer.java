@@ -11,7 +11,8 @@ import java.awt.image.BufferedImage;
 public class GameFrameBuffer {
 
 	BufferedImage image;
-    BufferStrategy frame;    
+    BufferStrategy frame; 
+   
 	
 	public GameFrameBuffer(Canvas aCanvas) {
 		 
@@ -41,8 +42,10 @@ public class GameFrameBuffer {
 	public void show() {
 		Graphics graphics = frame.getDrawGraphics();
 	    graphics.drawImage( image, 0, 0, null );
-	    if( !frame.contentsLost() )
-	      frame.show();		
+	    if( !frame.contentsLost() ){
+			frame.show();	
+		}
 	}
+
 	
 }
