@@ -6,7 +6,7 @@ public class PacmanGame extends Game {
 		GameState gameover = new GameoverState();
 		stateMachine.installState("Welcome", welcome);
 		stateMachine.installState("Play", play);
-		stateMachine.installState("GameOver", gameover);
+		stateMachine.installState("Gameover", gameover);
 		stateMachine.setStartState(welcome);
 	}
 	

@@ -8,19 +8,22 @@ public class PlayState extends GameState {
 	private boolean active;
 	private boolean gameOver;
 	private float deltaTimeAverage;
-	private Map map;
 	private Navbar navbar;
 	private Pacman pacman;
+	private Map map;
+  	private int currentMap;
 	private List<Ghost> ghosts;
 	private List<Coin> coins;
 
 	public PlayState() {
 		gameOver = false;
-		map = new Map();
 		navbar = new Navbar();
 		pacman = new Pacman();
 		ghosts = new ArrayList<>();
 		coins = new ArrayList<>();
+		map = new Map();
+    	currentMap = 1;
+		PlayerData.playerLives = 3;
 		ghosts.add(new Ghost(300, 200));
 		ghosts.add(new Ghost(160, 200));
 		ghosts.add(new Ghost(230, 100));
@@ -52,6 +55,16 @@ public class PlayState extends GameState {
 
 	}
 
+	public void changeMap() {
+		currentMap++;
+		if (currentMap > 3) {
+		  currentMap = 1;
+		}
+		int[][] newMap = map.getMap(currentMap);
+		// use the newMap variable to update the positions of ghosts, coins, pacman, and other game elements
+	  }
+	
+
 	public void update(long deltaTime) {
 		if (gameOver) {
 			PlayerData.playerLives--;
@@ -66,6 +79,10 @@ public class PlayState extends GameState {
 			ghostUpdate(deltaTime);
 			ghostsCollision();
 			coinsCollision();
+			if(PlayerData.playerScore >= 300) {
+				PlayerData.playerScore = 0;
+				changeMap();
+			}
 		}
 	}
 
@@ -89,11 +106,12 @@ public class PlayState extends GameState {
 
 	public void render(GameFrameBuffer aGameFrameBuffer) {
 		Graphics g = aGameFrameBuffer.graphics();
-		map.render(g);
+		Map.render(g);
 		navbar.render(g);
 		drawPacman(g);
 		drawGhosts(g);
 		drawCoins(g);
+		
 	}
 
 	private void ghostsCollision() {
