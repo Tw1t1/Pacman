@@ -1,21 +1,41 @@
 public class PlayerData {
-    public static String playerName;
-    public static int playerScore;
-    public static int playerLives;
-    
-    public static void setPlayerName(String name) {
-        playerName = name;
+
+    private String playerName;
+    private int playerScore;
+    private int playerLives;
+
+    public PlayerData() {
+        setPlayerName("NO NAME");
+        setPlayerScore(0);
+        setPlayerLives(PacmanGame.STARTING_LIVES);
     }
 
-    public static void setScore(String score) {
-        playerName = score; 
+    public String getPlayerName() {
+        return playerName;
     }
 
-    public static int getScore() {
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public int getPlayerScore() {
         return playerScore;
     }
 
-    public static void setLives(int life) {
-        playerLives = life; 
+    public void setPlayerScore(int playerScore) {
+        this.playerScore = playerScore;
+    }
+
+    public int getPlayerLives() {
+        return playerLives;
+    }
+
+    public void setPlayerLives(int playerLives) {
+        this.playerLives = playerLives;
+    }
+
+    public void resetPlayerData(){
+        setPlayerScore(0);
+        setPlayerLives(PacmanGame.STARTING_LIVES);
     }
 }

@@ -1,19 +1,16 @@
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.event.KeyEvent;
-import javax.swing.JLabel;
 import java.io.File;
-import java.awt.GraphicsEnvironment;
-import java.awt.FontFormatException;
 import java.io.IOException;
+import javax.swing.JLabel;
 
-public class GameoverState extends GameState {
+public class GameOverState extends GameState {
 
 	private JLabel gameOverLabel;
+	private PlayerData player;
 	private boolean isActive;
 
-	public GameoverState() {
+	public GameOverState() {
 		gameOverLabel = new JLabel("Write your name");
 		gameOverLabel.setVisible(false);
 		isActive = true;
@@ -21,6 +18,7 @@ public class GameoverState extends GameState {
 
 	@Override
 	public void enter(Object memento) {
+		player = (PlayerData) memento;
 		gameOverLabel.setVisible(true);
 		isActive = true;
 	}
@@ -49,6 +47,7 @@ public class GameoverState extends GameState {
 		}
 	}
 
+
 	@Override
 	public void render(GameFrameBuffer aGameFrameBuffer) {
 		Graphics2D g = aGameFrameBuffer.graphics();
@@ -56,7 +55,7 @@ public class GameoverState extends GameState {
 
 		// Set font for title
 		try {
-			Font customFont = Font.createFont(Font.TRUETYPE_FONT, new File("PacmanGame/src/utils/PAC-FONT.TTF"))
+			Font customFont = Font.createFont(Font.TRUETYPE_FONT, new File("PacmanGame/utils/PAC-FONT.TTF"))
 					.deriveFont(Font.PLAIN, 60);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			ge.registerFont(customFont);
@@ -73,9 +72,8 @@ public class GameoverState extends GameState {
 
 		// Reset font for rest of the elements
 		g.setColor(Color.white);
-
 		try {
-			Font customFont = Font.createFont(Font.TRUETYPE_FONT, new File("PacmanGame/src/utils/Pixeboy-z8XGD.ttf"))
+			Font customFont = Font.createFont(Font.TRUETYPE_FONT, new File("PacmanGame/utils/Pixeboy-z8XGD.ttf"))
 					.deriveFont(Font.PLAIN, 28);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			ge.registerFont(customFont);
@@ -84,13 +82,10 @@ public class GameoverState extends GameState {
 			e.printStackTrace();
 		}
 
-		g.drawString(PlayerData.playerName + " has a score of: " + PlayerData.playerScore,
-				(aGameFrameBuffer.getWidth() - textWidth) / 2 + 160,
+		g.drawString(player.getPlayerName() + " has a score of: " + player.getPlayerScore(), (aGameFrameBuffer.getWidth() - textWidth) / 2 + 160,
 				aGameFrameBuffer.getHeight() / 2 + 40);
 
-		g.drawString("Press enter to play again and esc to exit the game",
-				(aGameFrameBuffer.getWidth() - textWidth) / 2,
+		g.drawString("Press enter to play again and esc to exit the game", (aGameFrameBuffer.getWidth() - textWidth) / 2,
 				aGameFrameBuffer.getHeight() / 2 + 80);
 	}
-
 }

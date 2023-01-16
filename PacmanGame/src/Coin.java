@@ -1,14 +1,16 @@
+import java.awt.*;
+
 public class Coin extends GameObject{
 
-    private final int coinScore = 100;
-    private final int coinWidth = 10;
-    private final int coinHeight = 10;
+    static final int SCORE = 100;
+    static final int WIDTH = 20;
+    static final int HEIGHT = 20;
     private boolean visible;
 
     public Coin(float x, float y) {
         super(x, y, 0, 0);
-        setWidth(coinWidth);
-        setHeight(coinHeight);
+        setWidth(WIDTH);
+        setHeight(HEIGHT);
         setVisible(true);
     }
 
@@ -28,7 +30,8 @@ public class Coin extends GameObject{
         return false;
     }
 
-    public int coinScore(){
-        return coinScore;
+    public Image getImage() {
+        return Toolkit.getDefaultToolkit().getImage("PacmanGame/utils/coin.png");
     }
+
 }
