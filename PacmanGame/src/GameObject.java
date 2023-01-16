@@ -49,15 +49,7 @@ public class GameObject {
             this.height = height;
     }
 
-    public boolean checkCollisionArray(ArrayList<GameObject> l){
-        for (GameObject o : l){
-            if (checkCollisionArray(o))
-                return true;
-        }
-        return false;
-    }
-
-    public boolean checkCollisionArray(GameObject o){
+    public boolean checkCollision(GameObject o){
         return checkCollision1D(getX(), getWidth(), o.getX(), o.getWidth()) && checkCollision1D(getY(), getHeight(), o.getY(), o.getHeight());
     }
 

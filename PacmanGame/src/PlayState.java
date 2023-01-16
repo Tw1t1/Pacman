@@ -2,93 +2,88 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.Graphics;
 
 public class PlayState extends GameState {
+	private final int ghostsNumber = 5;
 	private boolean active;
+	private boolean pacmanDied;
 	private boolean gameOver;
+	private boolean gameWon;
 	private float deltaTimeAverage;
-	private Navbar navbar;
-	private Pacman pacman;
+	private PlayerData player;
+	private InfoBar infoBar;
 	private Map map;
-  	private int currentMap;
+	private Pacman pacman;
 	private List<Ghost> ghosts;
 	private List<Coin> coins;
 
 	public PlayState() {
+		infoBar = new InfoBar();
+		map = new Map();
+		pacmanDied = false;
 		gameOver = false;
-		navbar = new Navbar();
+		gameWon = false;
 		pacman = new Pacman();
 		ghosts = new ArrayList<>();
 		coins = new ArrayList<>();
-		map = new Map();
-    	currentMap = 1;
-		PlayerData.playerLives = 3;
-		ghosts.add(new Ghost(300, 200));
-		ghosts.add(new Ghost(160, 200));
-		ghosts.add(new Ghost(230, 100));
-		ghosts.add(new Ghost(340, 320));
-		coins.add(new Coin(300, 120));
-		coins.add(new Coin(350, 120));
-		coins.add(new Coin(400, 120));
+		addCoins();
+		addGhosts();
 	}
 
+	@Override
 	public void enter(Object memento) {
 		active = true;
 		deltaTimeAverage = 0;
+		player = (PlayerData) memento;
+		infoBar.setPlayer(player);
 		if (gameOver) {
-			pacman.reset();
-			resetCoins();
-			resetGhosts();
-			PlayerData.playerScore = 0;
-			gameOver = false;
+			resetGame();
+		}
+		else if (pacmanDied){
+			resetRound();
 		}
 	}
 
+	@Override
+	public void processKeyPressed(int aKeyCode) {
+		pacman.processKeyPressed(aKeyCode);
+	}
+
+	@Override
 	public void processKeyReleased(int aKeyCode) {
-		pacman.processKeyReleased(aKeyCode);
 		if (aKeyCode == KeyEvent.VK_ESCAPE)
 			System.exit(0);
 
 		if (aKeyCode == KeyEvent.VK_Q)
 			active = false;
-
 	}
 
-	public void changeMap() {
-		currentMap++;
-		if (currentMap > 3) {
-		  currentMap = 1;
-		}
-		int[][] newMap = map.getMap(currentMap);
-		// use the newMap variable to update the positions of ghosts, coins, pacman, and other game elements
-	  }
-	
-
+	@Override
 	public void update(long deltaTime) {
-		if (gameOver) {
-			PlayerData.playerLives--;
-			if (PlayerData.playerLives == 0) {
-				active = false;
-			} else {
-
-			}
+		if (gameWon){
+			map.nextLevel();
+			resetGame();
+		}
+		else if (gameOver)
+			active = false;
+		else if (pacmanDied) {
+			player.setPlayerLives(player.getPlayerLives()-1);
+			if (player.getPlayerLives() == 0)
+				gameOver = true;
+			else
+				resetRound();
 		} else {
 			deltaTimeAverage = deltaTimeAverage * 0.9f + 0.1f * (float) deltaTime;
-			pacman.pacmanMovement(deltaTime);
+			pacman.pacmanMovement(map, deltaTime);
 			ghostUpdate(deltaTime);
 			ghostsCollision();
 			coinsCollision();
-			if(PlayerData.playerScore >= 300) {
-				PlayerData.playerScore = 0;
-				changeMap();
-			}
 		}
 	}
 
 	public void ghostUpdate(long deltaTime) {
 		for (Ghost boo : ghosts) {
-			boo.ghostMovement(deltaTime);
+			boo.ghostMovement(map, deltaTime);
 		}
 	}
 
@@ -96,36 +91,58 @@ public class PlayState extends GameState {
 		return active;
 	}
 
+	@Override
 	public String next() {
-		if (PlayerData.playerLives == 0) {
-			return "Gameover";
-		} else {
-			return "Play";
-		}
+		return "GameOver";
 	}
 
+	@Override
 	public void render(GameFrameBuffer aGameFrameBuffer) {
 		Graphics g = aGameFrameBuffer.graphics();
-		Map.render(g);
-		navbar.render(g);
+		infoBar.render(g);
+		map.render(g);
 		drawPacman(g);
 		drawGhosts(g);
 		drawCoins(g);
-		
+	}
+
+	private void addCoins(){
+		int[][] mapGrid = map.getGrid();
+		for (int row = 0; row < mapGrid.length; row++) {
+			for (int col = 0; col < mapGrid[row].length; col++) {
+				if (mapGrid[row][col] == 0){
+					if (map.isCoinLocation(row, col)) {
+						float x = (col * Map.BLOCK_WIDTH) + (Map.BLOCK_WIDTH / 2) - (Coin.WIDTH / 2f);
+						float y = (row * Map.BLOCK_HEIGHT) + InfoBar.HEIGHT + (Map.BLOCK_HEIGHT / 2) - (Coin.HEIGHT / 2f);
+						coins.add(new Coin(x, y));
+					}
+				}
+			}
+		}
+	}
+
+	private void addGhosts(){
+		for(int i = 0; i < ghostsNumber; i++)
+			ghosts.add(new Ghost(map.getGhostStartX(), map.getGhostStartY()));
 	}
 
 	private void ghostsCollision() {
 		for (Ghost boo : ghosts) {
-			if (boo.checkCollisionArray(pacman))
-				gameOver = true;
+			if (boo.checkCollision(pacman))
+				pacmanDied = true;
 		}
 	}
 
 	private void coinsCollision() {
+		boolean noMoreCoins = true;
 		for (Coin c : coins) {
 			if (c.isVisible() && c.checkCollision(pacman))
-				PlayerData.playerScore += c.coinScore();
+				player.setPlayerScore(player.getPlayerScore() + Coin.SCORE);
+			else if (noMoreCoins && c.isVisible())
+				noMoreCoins = false;
 		}
+		if(noMoreCoins)
+			gameWon = true;
 	}
 
 	private void resetCoins() {
@@ -137,7 +154,6 @@ public class PlayState extends GameState {
 		for (Ghost boo : ghosts) {
 			boo.reset();
 		}
-
 	}
 
 	private void drawPacman(Graphics g) {
@@ -145,18 +161,35 @@ public class PlayState extends GameState {
 	}
 
 	private void drawGhosts(Graphics g) {
-
 		for (Ghost boo : ghosts) {
 			g.drawImage(boo.getImage(), (int) boo.getX(), (int) boo.getY(), null);
 		}
-
 	}
 
 	private void drawCoins(Graphics g) {
 		g.setColor(Color.green);
 		for (Coin c : coins) {
 			if (c.isVisible())
-				g.fillOval((int) c.getX(), (int) c.getY(), c.getWidth(), c.getHeight());
+				g.drawImage(c.getImage(), (int) c.getX(), (int) c.getY(), null);
 		}
+	}
+
+	private void resetRound(){
+		pacmanDied = false;
+		pacman.reset();
+		resetGhosts();
+	}
+
+	private void resetGame(){
+		gameWon = false;
+		gameOver = false;
+		player.resetPlayerData();
+		resetCoins();
+		resetRound();
+	}
+
+	@Override
+	public Object memento() {
+		return player;
 	}
 }

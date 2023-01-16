@@ -1,20 +1,21 @@
 public class PacmanGame extends Game {
 
+	static final int STARTING_LIVES = 3;
 	public PacmanGame() {
 		GameState welcome = new WelcomeState();
 		GameState play = new PlayState();
-		GameState gameover = new GameoverState();
+		GameState gameOver = new GameOverState();
 		stateMachine.installState("Welcome", welcome);
 		stateMachine.installState("Play", play);
-		stateMachine.installState("Gameover", gameover);
+		stateMachine.installState("GameOver", gameOver);
 		stateMachine.setStartState(welcome);
 	}
-	
+
 	public static void main( String[] args ) {
-	    Game app = new PacmanGame();
-	    app.setTitle( "Pacman Game" );
-	    app.setVisible( true );
-	    app.run();
-	    System.exit( 0 );
-	  }
+		Game app = new PacmanGame();
+		app.setTitle( "Pacman Game" );
+		app.setVisible( true );
+		app.run();
+		System.exit( 0 );
+	}
 }

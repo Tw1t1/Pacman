@@ -1,19 +1,15 @@
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
-import java.io.File;
-import java.awt.GraphicsEnvironment;
-import java.awt.FontFormatException;
-import java.io.IOException;
 
 public class WelcomeState extends GameState {
 
 	private JTextField playerNameField;
 	private JLabel nameText;
-	public static String playerName;
+	private PlayerData player;
 	private boolean isActive;
 
 	public WelcomeState() {
@@ -21,8 +17,7 @@ public class WelcomeState extends GameState {
 		nameText.setVisible(false);
 		playerNameField = new JTextField();
 		playerNameField.setVisible(false);
-		playerName = "";
-		isActive = true;
+		player = new PlayerData();
 	}
 
 	@Override
@@ -55,17 +50,12 @@ public class WelcomeState extends GameState {
 			playerNameField.setText(playerNameField.getText() + (char) aKeyCode);
 		} else if (aKeyCode == KeyEvent.VK_BACK_SPACE) {
 			String currentText = playerNameField.getText();
-			if (currentText.length() > 0) {
+			if (currentText.length() > 0)
 				playerNameField.setText(currentText.substring(0, currentText.length() - 1));
-			}
 		} else if (aKeyCode == KeyEvent.VK_ENTER) {
-			playerName = playerNameField.getText();
-			PlayerData.setPlayerName(playerName);
-			if (playerName.isEmpty()) {
-				isActive = true;
-			} else {
+			player.setPlayerName(playerNameField.getText());
+			if (!player.getPlayerName().isEmpty())
 				isActive = false;
-			}
 		}
 	}
 
@@ -83,7 +73,7 @@ public class WelcomeState extends GameState {
 
 		// Set font for title
 		try {
-			Font pacmanFont = Font.createFont(Font.TRUETYPE_FONT, new File("PacmanGame/src/utils/PAC-FONT.TTF")).deriveFont(Font.PLAIN, 60);
+			Font pacmanFont = Font.createFont(Font.TRUETYPE_FONT, new File("PacmanGame/utils/PAC-FONT.TTF")).deriveFont(Font.PLAIN, 60);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			ge.registerFont(pacmanFont);
 			g.setFont(pacmanFont);
@@ -99,7 +89,7 @@ public class WelcomeState extends GameState {
 
 		// Reset font for rest of the elements
 		try {
-			Font pixelFont = Font.createFont(Font.TRUETYPE_FONT, new File("PacmanGame/src/utils/Pixeboy-z8XGD.ttf")).deriveFont(Font.PLAIN, 28);
+			Font pixelFont = Font.createFont(Font.TRUETYPE_FONT, new File("PacmanGame/utils/Pixeboy-z8XGD.ttf")).deriveFont(Font.PLAIN, 28);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			ge.registerFont(pixelFont);
 			g.setFont(pixelFont);
@@ -119,4 +109,8 @@ public class WelcomeState extends GameState {
 				aGameFrameBuffer.getHeight() / 2 + 40);
 	}
 
+	@Override
+	public Object memento() {
+		return player;
+	}
 }
