@@ -72,49 +72,43 @@ public class Map {
         level = ((level + 1) % 3);
     }
 
-    public int[][] getGrid() {
-        return switch (level) {
-            case 1 -> grid1;
-            case 2 -> grid2;
-            default -> grid0;
-        };
+    public int[][] getGrid(){
+      switch(level) {
+        case 1: return grid1;
+        case 2: return grid2;
+        default: return grid0;
+      }
     }
 
     public boolean collision(float x, float y, int width, int height){
         return true;
     }
+
     public boolean isCoinLocation(int row, int col) {
-        return switch (level) {
-            case 1 -> // grid1
-                    (!(row == 13 && col == 12) && !(4 < row && row < 8 && 10 < col && col < 14));
-            case 2 -> // grid2
-                    (true);
-            default -> // grid0
-                    (true);
-        };
+      switch(level) {
+        case 1: return (!(row == 13 && col == 12) && !(4 < row && row < 8 && 10 < col && col < 14)); //grid1
+        case 2: return (true); // grid2
+        default: return (true); // grid3
+      }
     }
 
     public float getGhostStartX(){
-        return switch (level) {
-            case 1 -> // grid1
-                    (1 * BLOCK_WIDTH);
-            case 2 -> // grid2
-                    (2 * BLOCK_WIDTH);
-            default -> // grid0
-                    (10 * BLOCK_WIDTH);
-        };
+      switch(level) {
+        case 1: return (1 * BLOCK_WIDTH); // grid1
+        case 2: return (2 * BLOCK_WIDTH); // grid2
+        default: return (10 * BLOCK_WIDTH); // grid3
+      }
     }
 
+
     public float getGhostStartY(){
-        return switch (level) {
-            case 1 -> // grid1
-                    (1 * BLOCK_HEIGHT + InfoBar.HEIGHT);
-            case 2 -> // grid2
-                    (2 * BLOCK_HEIGHT + InfoBar.HEIGHT);
-            default -> // grid0
-                    (5 * BLOCK_HEIGHT + InfoBar.HEIGHT);
-        };
+      switch(level) {
+        case 1: return (1 * BLOCK_HEIGHT + InfoBar.HEIGHT); // grid1
+        case 2: return (2 * BLOCK_HEIGHT + InfoBar.HEIGHT); // grid2
+        default: return (5 * BLOCK_HEIGHT + InfoBar.HEIGHT); // grid0
+      }
     }
+
 
     public void render(Graphics g) {
         int[][] grid = getGrid();
