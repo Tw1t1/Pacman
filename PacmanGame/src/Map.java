@@ -7,10 +7,10 @@ public class Map {
     static final float BLOCK_WIDTH = Game.WIDTH / (float)GRID_COL;
     static final float BLOCK_HEIGHT = (Game.HEIGHT - InfoBar.HEIGHT) / (float)GRID_ROW;
 
-    private int level;
-    private final int[][] grid0;
-    private final int[][] grid1;
-    private final int[][] grid2;
+    private static int level;
+    private static int[][] grid0;
+    private static int[][] grid1;
+    private static int[][] grid2;
     public Map() {
         level = 0;
         grid0 = new int[][] {
@@ -29,7 +29,7 @@ public class Map {
             {1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1},
             {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-        }; // 15 x 24
+        }; // 15 x 24 -> actually for pacman movement 13x22 (because of walls)
 
         grid1 = new int[][] {
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -72,7 +72,7 @@ public class Map {
         level = ((level + 1) % 3);
     }
 
-    public int[][] getGrid(){
+    public static int[][] getGrid(){
       switch(level) {
         case 1: return grid1;
         case 2: return grid2;

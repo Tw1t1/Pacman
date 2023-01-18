@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class GameObject {
     private float x;
     private float y;
