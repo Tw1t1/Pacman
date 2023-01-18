@@ -4,11 +4,15 @@ import java.io.File;
 import java.io.IOException;
 
 public class InfoBar {
-    static final int HEIGHT = 50;
+    public static final int HEIGHT = 50;
     private PlayerData player;
 
     public void setPlayer(PlayerData player){
         this.player = player;
+    }
+
+    public static int getHeight(){
+        return HEIGHT;
     }
 
     public void render(Graphics g){
