@@ -7,10 +7,10 @@ public class Ghost extends GameObject {
     private final int ghostHeight = 40;
     private final long directionChangeInterval = 1000; // interval in milliseconds between direction changes
     private long lastDirectionChangeTime; // variable to store the last time the direction was changed
-
-    private int direction;
+    private PacmanGame.Direction direction;
     private float ghostStartX;
     private float ghostStartY;
+    private float ghostSpeed;
     private Random random;
 
 
@@ -21,6 +21,7 @@ public class Ghost extends GameObject {
         reset();
         setWidth(ghostWidth);
         setHeight(ghostHeight);
+        ghostSpeed = PacmanGame.SPEED[0];
     }
 
     public void reset() {
@@ -28,51 +29,66 @@ public class Ghost extends GameObject {
         setY(getRandomY()); // get first Y
     }
 
-    public void ghostMovement(Map map, long deltaTime) {
-        float newX = getX();
-        float newY = getY();
+    public void ghostMovement(long deltaTime) {
+        float nextX = getX();
+        float nextY = getY();
 
         if (System.currentTimeMillis() - lastDirectionChangeTime > directionChangeInterval) {
-            direction = random.nextInt(4) + 1; // set direction to a random number between 1 and 4
+            while(!setCurrentDirection(PacmanGame.Direction.values()[random.nextInt(4)]));
             lastDirectionChangeTime = System.currentTimeMillis();
         }
 
-        // x:
-        if (getX() >= 0 && getX() <= Game.WIDTH - ghostWidth) { // game.width-pacman.width
-            if (direction == 3) // right movement
-                newX = (getX() + 0.1f * deltaTime);
-            else if (direction == 4) // left movement
-                newX = (getX() - 0.1f * deltaTime);
-
-            // x bounds:
-        } else if (getX() > Game.WIDTH - ghostWidth) {
-            if (direction == 4) // right bound
-                newX = (getX() - 0.1f * deltaTime);
-        } else if (getX() < 0) {
-            if (direction == 3) // left bound
-                newX = (getX() + 0.1f * deltaTime);
+        switch(direction){
+            case RIGHT:
+                nextX += ghostSpeed * deltaTime;
+                break;
+            case LEFT:
+                nextX -= ghostSpeed * deltaTime;
+                break;
+            case DOWN:
+                nextY += ghostSpeed * deltaTime;
+                break;
+            case UP:
+                nextY -= ghostSpeed * deltaTime;
+                break;
+            default:
+                break;
         }
 
-        // y:
-        if (getY() >= 0 && getY() <= Game.HEIGHT - ghostHeight) {
-            if (direction == 1) // up movement
-                newY = (getY() - 0.1f * deltaTime);
-            else if (direction == 2) // down movement
-                newY = (getY() + 0.1f * deltaTime);
-
-            // y bounds:
-        } else if (getY() > Game.HEIGHT - ghostHeight) {
-            if (direction == 1) // down bound
-                newY = (getY() - 0.1f * deltaTime);
-        } else if (getY() < 0) {
-            if (direction == 2) // up bound
-                newY = (getY() + 0.1f * deltaTime);
+        if(Map.collision(nextX, nextY, ghostWidth, ghostHeight)){
+            setX(nextX);
+            setY(nextY);
         }
+    }
 
-        if(map.collision(newX, newY, ghostWidth, ghostHeight)){
-            setX(newX);
-            setY(newY);
+    private boolean setCurrentDirection(PacmanGame.Direction currentDirection) {
+        float space = 10;
+        switch(currentDirection){
+            case RIGHT:
+                if(Map.collision(getX() + space, getY(), ghostWidth, ghostHeight))
+                    break;
+                return false;
+            case LEFT:
+                if(Map.collision(getX() - space, getY(), ghostWidth, ghostHeight))
+                    break;
+                return false;
+            case DOWN:
+                if(Map.collision(getX(), getY() + space, ghostWidth, ghostHeight))
+                    break;
+                return false;
+            case UP:
+                if(Map.collision(getX(), getY() - space, ghostWidth, ghostHeight))
+                    break;
+                return false;
+            default:
+                break;
         }
+        this.direction = currentDirection;
+        return true;
+    }
+
+    public void setGhostSpeed(PacmanGame.Difficulty difficulty) {
+        this.ghostSpeed = PacmanGame.SPEED[difficulty.ordinal()];
     }
 
     public void setStartLocation(float x, float y) {
@@ -81,11 +97,11 @@ public class Ghost extends GameObject {
     }
 
     private float getRandomX(){
-        return ghostStartX + random.nextInt((int)(3 * Map.BLOCK_WIDTH) - ghostWidth);
+        return ghostStartX + random.nextFloat((3 * Map.BLOCK_WIDTH) - ghostWidth);
     }
 
     private float getRandomY(){
-        return ghostStartY + random.nextInt((int)(2 * Map.BLOCK_HEIGHT) - ghostHeight);
+        return ghostStartY + random.nextFloat((2 * Map.BLOCK_HEIGHT) - ghostHeight);
     }
 
     public Image getImage() {
