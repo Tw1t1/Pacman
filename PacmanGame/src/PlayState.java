@@ -27,8 +27,7 @@ public class PlayState extends GameState {
 		pacman = new Pacman();
 		ghosts = new ArrayList<>();
 		coins = new ArrayList<>();
-		coins.add(new Coin((11 * Map.BLOCK_WIDTH) + (Map.BLOCK_WIDTH / 2f) - (40 / 2f) + 60, (13 * Map.BLOCK_HEIGHT) + InfoBar.HEIGHT + (Map.BLOCK_HEIGHT / 2f) - (40 / 2f)));//remove later - just for debuging
-		// addCoins();
+		addCoins();
 		addGhosts();
 	}
 

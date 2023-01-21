@@ -80,10 +80,10 @@ public class GameWonState extends GameState{
             e.printStackTrace();
         }
 
-        g.drawString(player.getPlayerName() + " has a score of: " + player.getPlayerScore(), (aGameFrameBuffer.getWidth() - textWidth) / 2 + 160,
+        g.drawString(player.getPlayerName() + " has a score of: " + player.getPlayerScore(), (aGameFrameBuffer.getWidth() - textWidth) / 2 + 100,
                 aGameFrameBuffer.getHeight() / 2 + 40);
 
-        g.drawString("Press enter to play again and esc to exit the game", (aGameFrameBuffer.getWidth() - textWidth) / 2,
+        g.drawString("Press enter to play again and esc to exit the game", (aGameFrameBuffer.getWidth() - textWidth) / 2 - 60,
                 aGameFrameBuffer.getHeight() / 2 + 80);
     }
 }
