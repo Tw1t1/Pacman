@@ -33,10 +33,9 @@ public class PlayState extends GameState {
 	@Override
 	public void enter(Object memento) {
 		active = true;
-		gameWon = false;
 		player = (PlayerData) memento;
 		infoBar.setPlayer(player);
-		if (gameOver) {
+		if (gameOver || gameWon) {
 			resetGame();
 		}
 		else if (pacmanDied){
@@ -75,10 +74,13 @@ public class PlayState extends GameState {
 				active = false;
 				gameWon = true;
 			}
-			resetGame();
+			else
+				resetGame();
 		}
-		else if (gameOver)
+		else if (gameOver){
 			active = false;
+			Map.setLevel(0);
+		}
 		else if (pacmanDied) {
 			player.setPlayerLives(player.getPlayerLives()-1);
 			if (player.getPlayerLives() == 0)
@@ -93,7 +95,7 @@ public class PlayState extends GameState {
 		}
 	}
 
-	public void ghostUpdate(long deltaTime) {
+	private void ghostUpdate(long deltaTime) {
 		for (Ghost boo : ghosts) {
 			boo.ghostMovement(deltaTime);
 		}
@@ -196,12 +198,14 @@ public class PlayState extends GameState {
 	}
 
 	private void resetGame(){
-		if(gameOver) {
+		if(gameOver || gameWon) {
 			player.resetPlayerData();
 		}
 		roundWon = false;
 		gameOver = false;
-		resetCoins();
+		gameWon = false;
+		coins = new ArrayList<>();
+		addCoins();
 		resetRound();
 	}
 
