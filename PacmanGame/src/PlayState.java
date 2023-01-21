@@ -8,6 +8,7 @@ public class PlayState extends GameState {
 	private boolean active;
 	private boolean pacmanDied;
 	private boolean gameOver;
+	private boolean roundWon;
 	private boolean gameWon;
 	private float deltaTimeAverage;
 	private PlayerData player;
@@ -22,7 +23,7 @@ public class PlayState extends GameState {
 		map = new Map();
 		pacmanDied = false;
 		gameOver = false;
-		gameWon = false;
+		roundWon = false;
 		pacman = new Pacman();
 		ghosts = new ArrayList<>();
 		coins = new ArrayList<>();
@@ -33,6 +34,7 @@ public class PlayState extends GameState {
 	@Override
 	public void enter(Object memento) {
 		active = true;
+		gameWon = false;
 		deltaTimeAverage = 0;
 		player = (PlayerData) memento;
 		infoBar.setPlayer(player);
@@ -60,8 +62,11 @@ public class PlayState extends GameState {
 
 	@Override
 	public void update(long deltaTime) {
-		if (gameWon){
-			map.nextLevel();
+		if (roundWon){ // no more coins
+			if(!map.nextLevel()){
+				active = false;
+				gameWon = true;
+			}
 			resetGame();
 		}
 		else if (gameOver)
@@ -93,6 +98,9 @@ public class PlayState extends GameState {
 
 	@Override
 	public String next() {
+		if(gameWon) {
+			return "GameWon";
+		}
 		return "GameOver";
 	}
 
@@ -107,7 +115,7 @@ public class PlayState extends GameState {
 	}
 
 	private void addCoins(){
-		int[][] mapGrid = map.getGrid();
+		int[][] mapGrid = Map.getGrid();
 		for (int row = 0; row < mapGrid.length; row++) {
 			for (int col = 0; col < mapGrid[row].length; col++) {
 				if (mapGrid[row][col] == 0){
@@ -142,7 +150,7 @@ public class PlayState extends GameState {
 				noMoreCoins = false;
 		}
 		if(noMoreCoins)
-			gameWon = true;
+			roundWon = true;
 	}
 
 	private void resetCoins() {
@@ -181,9 +189,11 @@ public class PlayState extends GameState {
 	}
 
 	private void resetGame(){
-		gameWon = false;
+		if(gameOver) {
+			player.resetPlayerData();
+		}
+		roundWon = false;
 		gameOver = false;
-		player.resetPlayerData();
 		resetCoins();
 		resetRound();
 	}

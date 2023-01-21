@@ -11,6 +11,7 @@ public class WelcomeState extends GameState {
 	private JLabel nameText;
 	private PlayerData player;
 	private boolean isActive;
+	private SparklesAnimator sparklesAnimator;
 
 	public WelcomeState() {
 		nameText = new JLabel("Write your name");
@@ -18,6 +19,7 @@ public class WelcomeState extends GameState {
 		playerNameField = new JTextField();
 		playerNameField.setVisible(false);
 		player = new PlayerData();
+		sparklesAnimator = new SparklesAnimator();
 	}
 
 	@Override
@@ -69,6 +71,10 @@ public class WelcomeState extends GameState {
 	@Override
 	public void render(GameFrameBuffer aGameFrameBuffer) {
 		Graphics2D g = aGameFrameBuffer.graphics();
+
+		sparklesAnimator.update();
+		sparklesAnimator.render(g);
+
 		g.setColor(new Color(255, 215, 0));
 
 		// Set font for title

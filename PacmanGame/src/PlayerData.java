@@ -10,28 +10,28 @@ public class PlayerData {
         setPlayerLives(PacmanGame.STARTING_LIVES);
     }
 
-    public String getPlayerName() {
-        return playerName;
+    public void setPlayerLives(int playerLives) {
+        this.playerLives = playerLives;
     }
 
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
 
-    public int getPlayerScore() {
-        return playerScore;
-    }
-
     public void setPlayerScore(int playerScore) {
         this.playerScore = playerScore;
+    }
+
+    public int getPlayerScore() {
+        return playerScore;
     }
 
     public int getPlayerLives() {
         return playerLives;
     }
 
-    public void setPlayerLives(int playerLives) {
-        this.playerLives = playerLives;
+    public String getPlayerName() {
+        return playerName;
     }
 
     public void resetPlayerData(){

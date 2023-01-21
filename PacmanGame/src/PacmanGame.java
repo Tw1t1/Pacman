@@ -5,8 +5,10 @@ public class PacmanGame extends Game {
 		GameState welcome = new WelcomeState();
 		GameState play = new PlayState();
 		GameState gameOver = new GameOverState();
+		GameState gameWon = new GameWonState();
 		stateMachine.installState("Welcome", welcome);
 		stateMachine.installState("Play", play);
+		stateMachine.installState("GameWon", gameWon);
 		stateMachine.installState("GameOver", gameOver);
 		stateMachine.setStartState(welcome);
 	}

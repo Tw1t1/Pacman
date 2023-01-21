@@ -9,11 +9,13 @@ public class GameOverState extends GameState {
 	private JLabel gameOverLabel;
 	private PlayerData player;
 	private boolean isActive;
+	private SparklesAnimator sparklesAnimator;
 
 	public GameOverState() {
 		gameOverLabel = new JLabel("Write your name");
 		gameOverLabel.setVisible(false);
 		isActive = true;
+		sparklesAnimator = new SparklesAnimator();
 	}
 
 	@Override
@@ -51,6 +53,10 @@ public class GameOverState extends GameState {
 	@Override
 	public void render(GameFrameBuffer aGameFrameBuffer) {
 		Graphics2D g = aGameFrameBuffer.graphics();
+
+		sparklesAnimator.update();
+		sparklesAnimator.render(g);
+
 		g.setColor(new Color(255, 215, 0));
 
 		// Set font for title
