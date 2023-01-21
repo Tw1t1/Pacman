@@ -10,7 +10,6 @@ public class PlayState extends GameState {
 	private boolean gameOver;
 	private boolean roundWon;
 	private boolean gameWon;
-	private float deltaTimeAverage;
 	private PlayerData player;
 	private InfoBar infoBar;
 	private Map map;
@@ -35,7 +34,6 @@ public class PlayState extends GameState {
 	public void enter(Object memento) {
 		active = true;
 		gameWon = false;
-		deltaTimeAverage = 0;
 		player = (PlayerData) memento;
 		infoBar.setPlayer(player);
 		if (gameOver) {
@@ -48,7 +46,17 @@ public class PlayState extends GameState {
 
 	@Override
 	public void processKeyPressed(int aKeyCode) {
-		pacman.processKeyPressed(aKeyCode);
+		if (aKeyCode == KeyEvent.VK_UP) // move up
+			pacman.setCurrentDirection(PacmanGame.Direction.UP);
+
+		if (aKeyCode == KeyEvent.VK_DOWN) // move down
+			pacman.setCurrentDirection(PacmanGame.Direction.DOWN);
+
+		if (aKeyCode == KeyEvent.VK_RIGHT) // move right
+			pacman.setCurrentDirection(PacmanGame.Direction.RIGHT);
+
+		if (aKeyCode == KeyEvent.VK_LEFT) // move left
+			pacman.setCurrentDirection(PacmanGame.Direction.LEFT);
 	}
 
 	@Override
@@ -78,8 +86,7 @@ public class PlayState extends GameState {
 			else
 				resetRound();
 		} else {
-			deltaTimeAverage = deltaTimeAverage * 0.9f + 0.1f * (float) deltaTime;
-			pacman.pacmanMovement(map, deltaTime);
+			pacman.pacmanMovement(deltaTime);
 			ghostUpdate(deltaTime);
 			ghostsCollision();
 			coinsCollision();
@@ -88,7 +95,7 @@ public class PlayState extends GameState {
 
 	public void ghostUpdate(long deltaTime) {
 		for (Ghost boo : ghosts) {
-			boo.ghostMovement(map, deltaTime);
+			boo.ghostMovement(deltaTime);
 		}
 	}
 

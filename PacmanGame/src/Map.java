@@ -2,12 +2,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Map {
-    public static boolean lastGrid;
     static final int GRID_ROW = 15;
     static final int GRID_COL = 24;
     static final float BLOCK_WIDTH = Game.WIDTH / (float)GRID_COL;
     static final float BLOCK_HEIGHT = (Game.HEIGHT - InfoBar.HEIGHT) / (float)GRID_ROW;
-
     private static int level;
     private static int[][] grid0;
     private static int[][] grid1;
@@ -15,13 +13,12 @@ public class Map {
     
     public Map() {
         level = 0;
-        lastGrid = false;
         grid0 = new int[][] {
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
             {1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
             {1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1},
             {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
-            {1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1},
+            {1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1},
             {1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1},
             {1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1},
             {1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1},
@@ -87,23 +84,31 @@ public class Map {
       return true;
     }
 
-    public static int getCurrentGrid(){
+    public static int getLevel(){
       return level;
     }
 
-    public boolean getLastGrid() {
-      return lastGrid;
-    }
-
-    public boolean collision(float x, float y, int width, int height){
-        return true;
+    public static boolean collision(float x, float y, int width, int height){
+        int space = 1;
+        int topLeftRow = (int)((y - InfoBar.HEIGHT - space) / BLOCK_WIDTH);
+        int topLeftCol = (int)((x - space) / BLOCK_WIDTH);
+        int topRightRow = (int)((y - InfoBar.HEIGHT - space) / BLOCK_WIDTH);
+        int topRightCol = (int)((x + width + space) / BLOCK_WIDTH);
+        int bottomLeftRow = (int)(((y + height + space) - InfoBar.HEIGHT) / BLOCK_WIDTH);
+        int bottomLeftCol = (int)((x - space) / BLOCK_WIDTH);
+        int bottomRightRow = (int)(((y + height + space) - InfoBar.HEIGHT) / BLOCK_WIDTH);
+        int bottomRightCol = (int)((x + width + space) / BLOCK_WIDTH);
+        int[][] grid = getGrid();
+        if(grid[topLeftRow][topLeftCol] == 0 && grid[topRightRow][topRightCol] == 0 && grid[bottomLeftRow][bottomLeftCol] == 0 && grid[bottomRightRow][bottomRightCol] == 0)
+            return true;
+        return false;
     }
 
     public boolean isCoinLocation(int row, int col) {
       switch(level) {
-        case 1: return (!(row == 13 && col == 12) && !(4 < row && row < 8 && 10 < col && col < 14)); //grid1
+        case 1: return (true); // grid1
         case 2: return (true); // grid2
-        default: return (true); // grid3
+        default: return (!(row == 13 && col == 11) && !(3 < row && row < 8 && 9 < col && col < 13)); //grid0
       }
     }
 
@@ -115,7 +120,6 @@ public class Map {
       }
     }
 
-
     public float getGhostStartY(){
       switch(level) {
         case 1: return (1 * BLOCK_HEIGHT + InfoBar.HEIGHT); // grid1
@@ -123,7 +127,6 @@ public class Map {
         default: return (5 * BLOCK_HEIGHT + InfoBar.HEIGHT); // grid0
       }
     }
-
 
     public void render(Graphics g) {
         int[][] grid = getGrid();
