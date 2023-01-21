@@ -23,8 +23,17 @@ public class InfoBar {
 
         g.setColor(Color.BLACK);
         g.fillRect(0, 1, Game.WIDTH-1, HEIGHT);
-        g.setColor(Color.BLUE);
-        g.drawRect(0, 1, Game.WIDTH-1, HEIGHT);
+        if(Map.getCurrentGrid() == 0) {
+            g.setColor(Color.BLUE);
+            g.drawRect(0, 1, Game.WIDTH-1, HEIGHT);
+        } else if(Map.getCurrentGrid() == 1) {
+            g.setColor(Color.PINK);
+            g.drawRect(0, 1, Game.WIDTH-1, HEIGHT);
+        } else if(Map.getCurrentGrid() == 2) {
+            g.setColor(new Color(105,0,242));
+            g.drawRect(0, 1, Game.WIDTH-1, HEIGHT);
+        }
+        
 
         // Draw the player name, score, and lives
         g.setColor(Color.WHITE);
