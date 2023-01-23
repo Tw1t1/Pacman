@@ -110,27 +110,15 @@ public class Map {
     }
 
     public boolean isCoinLocation(int row, int col) {
-      switch(level) {
-        case 1: return (true); // grid1
-        case 2: return (true); // grid2
-        default: return (!(row == 13 && col == 11) && !(3 < row && row < 8 && 9 < col && col < 13)); //grid0
-      }
+        return (!(row == 13 && col == 11) && !(3 < row && row < 8 && 9 < col && col < 13)); //grid0
     }
 
     public float getGhostStartX(){
-      switch(level) {
-        case 1: return (1 * BLOCK_WIDTH); // grid1
-        case 2: return (2 * BLOCK_WIDTH); // grid2
-        default: return (10 * BLOCK_WIDTH); // grid3
-      }
+        return (10 * BLOCK_WIDTH);
     }
 
     public float getGhostStartY(){
-      switch(level) {
-        case 1: return (1 * BLOCK_HEIGHT + InfoBar.HEIGHT); // grid1
-        case 2: return (2 * BLOCK_HEIGHT + InfoBar.HEIGHT); // grid2
-        default: return (5 * BLOCK_HEIGHT + InfoBar.HEIGHT); // grid0
-      }
+        return (5 * BLOCK_HEIGHT + InfoBar.HEIGHT);
     }
 
     public void render(Graphics g) {

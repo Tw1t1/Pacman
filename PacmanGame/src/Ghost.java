@@ -87,8 +87,13 @@ public class Ghost extends GameObject {
         return true;
     }
 
-    public void setGhostSpeed(PacmanGame.Difficulty difficulty) {
-        this.ghostSpeed = PacmanGame.SPEED[difficulty.ordinal()];
+    /*
+    * SPEED[0] = Easy
+    * SPEED[1] = Hard
+    * SPEED[2] = Expert
+    */
+    public void setGhostSpeed(int difficulty) {
+        this.ghostSpeed = PacmanGame.SPEED[difficulty % PacmanGame.SPEED.length];
     }
 
     public void setStartLocation(float x, float y) {
