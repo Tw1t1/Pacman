@@ -125,8 +125,8 @@ public class PlayState extends GameState {
 
 	private void addCoins(){
 		int[][] mapGrid = Map.getGrid();
-		for (int row = 0; row < mapGrid.length; row++) {
-			for (int col = 0; col < mapGrid[row].length; col++) {
+		for (int row = 12; row < mapGrid.length; row++) {
+			for (int col = 20; col < mapGrid[row].length; col++) {
 				if (mapGrid[row][col] == 0){
 					if (map.isCoinLocation(row, col)) {
 						float x = (col * Map.BLOCK_WIDTH) + (Map.BLOCK_WIDTH / 2) - (Coin.WIDTH / 2f);
