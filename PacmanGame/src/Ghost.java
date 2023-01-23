@@ -10,7 +10,7 @@ public class Ghost extends GameObject {
     private PacmanGame.Direction direction;
     private float ghostStartX;
     private float ghostStartY;
-    private float ghostSpeed;
+    private static float ghostSpeed;
     private Random random;
 
 
@@ -92,8 +92,8 @@ public class Ghost extends GameObject {
     * SPEED[1] = Hard
     * SPEED[2] = Expert
     */
-    public void setGhostSpeed(int difficulty) {
-        this.ghostSpeed = PacmanGame.SPEED[difficulty % PacmanGame.SPEED.length];
+    public static void setGhostSpeed(int difficulty) {
+        ghostSpeed = PacmanGame.SPEED[difficulty % PacmanGame.SPEED.length];
     }
 
     public void setStartLocation(float x, float y) {
@@ -102,11 +102,11 @@ public class Ghost extends GameObject {
     }
 
     private float getRandomX(){
-        return ghostStartX + random.nextFloat((3 * Map.BLOCK_WIDTH) - ghostWidth);
+        return ghostStartX + random.nextFloat() * ((3 * Map.BLOCK_WIDTH) - ghostWidth);
     }
 
     private float getRandomY(){
-        return ghostStartY + random.nextFloat((2 * Map.BLOCK_HEIGHT) - ghostHeight);
+        return ghostStartY + random.nextFloat() * ((2 * Map.BLOCK_HEIGHT) - ghostHeight);
     }
 
     public Image getImage() {
