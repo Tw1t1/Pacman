@@ -59,6 +59,15 @@ public class WelcomeState extends GameState {
 			if (!player.getPlayerName().isEmpty())
 				isActive = false;
 		}
+		if(aKeyCode == KeyEvent.VK_1) {
+            Ghost.setGhostSpeed(0);
+        }
+        if(aKeyCode == KeyEvent.VK_2) {
+            Ghost.setGhostSpeed(1);
+        }
+        if(aKeyCode == KeyEvent.VK_3) {
+            Ghost.setGhostSpeed(2);
+        }
 	}
 
 	@Override
@@ -71,6 +80,7 @@ public class WelcomeState extends GameState {
 	@Override
 	public void render(GameFrameBuffer aGameFrameBuffer) {
 		Graphics2D g = aGameFrameBuffer.graphics();
+		Graphics2D b = aGameFrameBuffer.graphics();
 
 		sparklesAnimator.update();
 		sparklesAnimator.render(g);
@@ -99,6 +109,7 @@ public class WelcomeState extends GameState {
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			ge.registerFont(pixelFont);
 			g.setFont(pixelFont);
+			b.setFont(pixelFont);
 		} catch (FontFormatException | IOException e) {
 			e.printStackTrace();
 		}
@@ -113,6 +124,22 @@ public class WelcomeState extends GameState {
 		g.setColor(Color.white);
 		g.drawString(nameText.getText(), (aGameFrameBuffer.getWidth() - textWidth) / 2 + 230,
 				aGameFrameBuffer.getHeight() / 2 + 40);
+		
+		b.setColor(new Color(255, 215, 0));
+        // Draw the easy button
+    	g.drawRect(aGameFrameBuffer.getWidth()/3 + 85 - 50, aGameFrameBuffer.getHeight() - 75, 100, 50);
+   	 	b.drawString("Easy", aGameFrameBuffer.getWidth()/3 + 100 - 40, aGameFrameBuffer.getHeight() - 40);
+		g.drawString("Press 1", aGameFrameBuffer.getWidth()/3 + 85 - 40, aGameFrameBuffer.getHeight() - 40 - 50);
+
+    	// Draw the hard button
+    	g.drawRect((aGameFrameBuffer.getWidth()/3) + 205 - 50, aGameFrameBuffer.getHeight() - 75, 100, 50);
+    	b.drawString("Hard", (aGameFrameBuffer.getWidth()/3) + 215 - 40, aGameFrameBuffer.getHeight() - 40);
+		g.drawString("Press 2", aGameFrameBuffer.getWidth()/3 + 205 - 40, aGameFrameBuffer.getHeight() - 40 - 50);
+
+    	// Draw the expert button
+    	g.drawRect((aGameFrameBuffer.getWidth()/3) + 325 - 50, aGameFrameBuffer.getHeight() - 75, 100, 50);
+    	b.drawString("Expert", (aGameFrameBuffer.getWidth()/3) + 325 - 40, aGameFrameBuffer.getHeight() - 40);
+		g.drawString("Press 3", aGameFrameBuffer.getWidth()/3 + 325 - 40, aGameFrameBuffer.getHeight() - 40 - 50);
 	}
 
 	@Override
