@@ -17,6 +17,7 @@ public class PacmanGame extends Game {
 	public static void main( String[] args ) {
 		Game app = new PacmanGame();
 		app.setTitle( "Pacman Game" );
+		app.setResizable(false);
 		app.setVisible( true );
 		app.setLocationRelativeTo(null);
 		app.run();
