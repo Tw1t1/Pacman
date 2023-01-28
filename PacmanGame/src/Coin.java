@@ -33,5 +33,4 @@ public class Coin extends GameObject{
     public Image getImage() {
         return Toolkit.getDefaultToolkit().getImage("PacmanGame/utils/coin.png");
     }
-
 }

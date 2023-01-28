@@ -9,7 +9,6 @@ public class PlayState extends GameState {
 	private boolean pacmanDied;
 	private boolean gameOver;
 	private boolean roundWon;
-	private boolean gameWon;
 	private PlayerData player;
 	private InfoBar infoBar;
 	private Map map;
@@ -35,7 +34,7 @@ public class PlayState extends GameState {
 		active = true;
 		player = (PlayerData) memento;
 		infoBar.setPlayer(player);
-		if (gameOver || gameWon) {
+		if (gameOver) {
 			resetGame();
 		}
 		else if (pacmanDied){
@@ -70,15 +69,17 @@ public class PlayState extends GameState {
 	@Override
 	public void update(long deltaTime) {
 		if (roundWon){ // no more coins
-			if(!map.nextLevel()){
+			if(!map.nextLevel()){ // won the game
 				active = false;
-				gameWon = true;
+				player.setWon(true);
+				gameOver = true;
 			}
 			else
 				resetGame();
 		}
 		else if (gameOver){
 			active = false;
+			player.setWon(false);
 			Map.setLevel(0);
 		}
 		else if (pacmanDied) {
@@ -107,15 +108,12 @@ public class PlayState extends GameState {
 
 	@Override
 	public String next() {
-		if(gameWon) {
-			return "GameWon";
-		}
 		return "GameOver";
 	}
 
 	@Override
 	public void render(GameFrameBuffer aGameFrameBuffer) {
-		Graphics g = aGameFrameBuffer.graphics();
+		Graphics2D g = aGameFrameBuffer.graphics();
 		infoBar.render(g);
 		map.render(g);
 		drawPacman(g);
@@ -129,8 +127,8 @@ public class PlayState extends GameState {
 			for (int col = 0; col < mapGrid[row].length; col++) {
 				if (mapGrid[row][col] == 0){
 					if (map.isCoinLocation(row, col)) {
-						float x = (col * Map.BLOCK_WIDTH) + (Map.BLOCK_WIDTH / 2) - (Coin.WIDTH / 2f);
-						float y = (row * Map.BLOCK_HEIGHT) + InfoBar.HEIGHT + (Map.BLOCK_HEIGHT / 2) - (Coin.HEIGHT / 2f);
+						float x = (col * Map.BLOCK_WIDTH) + ((Map.BLOCK_WIDTH - Coin.WIDTH) / 2);
+						float y = (row * Map.BLOCK_HEIGHT) + InfoBar.HEIGHT + ((Map.BLOCK_HEIGHT - Coin.HEIGHT) / 2);
 						coins.add(new Coin(x, y));
 					}
 				}
@@ -162,28 +160,23 @@ public class PlayState extends GameState {
 			roundWon = true;
 	}
 
-	private void resetCoins() {
-		for (Coin c : coins)
-			c.setVisible(true);
-	}
-
 	private void resetGhosts() {
 		for (Ghost boo : ghosts) {
 			boo.reset();
 		}
 	}
 
-	private void drawPacman(Graphics g) {
+	private void drawPacman(Graphics2D g) {
 		g.drawImage(pacman.getImage(), (int) pacman.getX(), (int) pacman.getY(), null);
 	}
 
-	private void drawGhosts(Graphics g) {
+	private void drawGhosts(Graphics2D g) {
 		for (Ghost boo : ghosts) {
 			g.drawImage(boo.getImage(), (int) boo.getX(), (int) boo.getY(), null);
 		}
 	}
 
-	private void drawCoins(Graphics g) {
+	private void drawCoins(Graphics2D g) {
 		g.setColor(Color.green);
 		for (Coin c : coins) {
 			if (c.isVisible())
@@ -198,12 +191,11 @@ public class PlayState extends GameState {
 	}
 
 	private void resetGame(){
-		if(gameOver || gameWon) {
+		if(gameOver) {
 			player.resetPlayerData();
 		}
 		roundWon = false;
 		gameOver = false;
-		gameWon = false;
 		coins = new ArrayList<>();
 		addCoins();
 		resetRound();
