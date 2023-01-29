@@ -84,10 +84,6 @@ public class Map {
       return true;
     }
 
-    public static int getLevel(){
-      return level;
-    }
-
     public static void setLevel(int level){
         Map.level = (level % 3);
     }
@@ -103,9 +99,7 @@ public class Map {
         int bottomRightRow = (int)(((y + height + space) - InfoBar.HEIGHT) / BLOCK_WIDTH);
         int bottomRightCol = (int)((x + width + space) / BLOCK_WIDTH);
         int[][] grid = getGrid();
-        if(grid[topLeftRow][topLeftCol] == 0 && grid[topRightRow][topRightCol] == 0 && grid[bottomLeftRow][bottomLeftCol] == 0 && grid[bottomRightRow][bottomRightCol] == 0)
-            return true;
-        return false;
+        return grid[topLeftRow][topLeftCol] == 0 && grid[topRightRow][topRightCol] == 0 && grid[bottomLeftRow][bottomLeftCol] == 0 && grid[bottomRightRow][bottomRightCol] == 0;
     }
 
     public boolean isCoinLocation(int row, int col) {
