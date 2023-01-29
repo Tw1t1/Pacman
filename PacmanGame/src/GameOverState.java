@@ -3,7 +3,6 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
-import javax.swing.JLabel;
 
 public class GameOverState extends GameState {
 

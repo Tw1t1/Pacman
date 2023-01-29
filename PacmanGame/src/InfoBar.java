@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
 
@@ -12,7 +11,6 @@ public class InfoBar {
     }
 
     public void render(Graphics2D g){
-        Rectangle2D bounds;
         String playerName = "Player: " + player.getPlayerName();
         String playerScore = "Score: " + player.getPlayerScore();
         String playerLives = "Lives: " + player.getPlayerLives();

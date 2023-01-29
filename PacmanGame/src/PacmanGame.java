@@ -1,5 +1,5 @@
 public class PacmanGame extends Game {
-	public enum Direction {UP, DOWN, LEFT, RIGHT, NOTHING};
+	public enum Direction {UP, DOWN, LEFT, RIGHT, NOTHING}
 	public static final float[] SPEED = {0.1f, 0.15f, 0.2f}; // used to set difficulty
 	static final int STARTING_LIVES = 3;
 	public PacmanGame() {

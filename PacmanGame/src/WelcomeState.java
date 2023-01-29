@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
 
@@ -156,7 +155,6 @@ public class WelcomeState extends GameState {
 		} catch (FontFormatException | IOException e) {
 			e.printStackTrace();
 		}
-		fontHeight = g.getFontMetrics().getHeight();
 
 		text = "Easy";
 		strWidth = g.getFontMetrics().stringWidth(text);
