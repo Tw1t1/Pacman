@@ -5,8 +5,8 @@ import java.awt.Graphics;
 public class SparklesAnimator {
     private static final int NUM_SPARKLES = 100;
     private static final int SPARKLE_SIZE = 5;
-    private static final int WIDTH = 1200;
-    private static final int HEIGHT = 800;
+    private static final int WIDTH = PacmanGame.WIDTH;
+    private static final int HEIGHT = PacmanGame.HEIGHT;
 
     private Point[] sparkles;
 

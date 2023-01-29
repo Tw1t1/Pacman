@@ -1,5 +1,4 @@
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 public class Map {
     static final int GRID_ROW = 15;
@@ -41,31 +40,31 @@ public class Map {
             {1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1},
             {1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1},
             {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1},
-            {1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1},
+            {1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1},
             {1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1},
             {1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1},
-            {1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1},
-            {1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+            {1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1},
+            {1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
         }; // 15 x 24
 
         grid2 = new int[][] {
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
             {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-            {1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1},
+            {1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1},
             {1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1},
-            {1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
-            {1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1},
-            {1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1},
+            {1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1},
+            {1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1},
+            {1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1},
             {1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1},
-            {1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1},
-            {1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1},
+            {1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1},
+            {1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1},
             {1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1},
             {1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1},
-            {1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1},
-            {1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1},
+            {1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1},
+            {1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1},
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-        }; // 15 x 24 
+        }; // 15 x 24
     }
 
     public static int[][] getGrid(){
@@ -121,7 +120,7 @@ public class Map {
         return (5 * BLOCK_HEIGHT + InfoBar.HEIGHT);
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         int[][] grid = getGrid();
         int correctionY, correctionX;
         for (int row = 0; row < grid.length; row++) {
@@ -129,19 +128,34 @@ public class Map {
                 if (grid[row][col] == 1) {
                     correctionX = (col == grid[row].length - 1)? 1 : 0;
                     correctionY = (row == grid.length - 1)? 1 : 0;
-                    g.setColor(Color.BLACK);
+                    g.setColor(getFillColor());
                     g.fillRect(col * (int)(BLOCK_WIDTH), row * (int)(BLOCK_HEIGHT) + InfoBar.HEIGHT, (int)(BLOCK_WIDTH), (int)(BLOCK_HEIGHT));
-                    g.setColor(Color.BLUE);
+                    g.setColor(getLineColor());
                     g.drawRect(col * (int)(BLOCK_WIDTH), row * (int)(BLOCK_HEIGHT) + InfoBar.HEIGHT, (int)(BLOCK_WIDTH) - correctionX, (int)(BLOCK_HEIGHT) - correctionY);
-                    if(grid == grid1) {
-                      g.setColor(Color.PINK);
-                      g.drawRect(col * (int)(BLOCK_WIDTH), row * (int)(BLOCK_HEIGHT) + InfoBar.HEIGHT, (int)(BLOCK_WIDTH) - correctionX, (int)(BLOCK_HEIGHT) - correctionY);
-                    }else if(grid == grid2) {
-                      g.setColor(new Color(105,0,242));
-                      g.drawRect(col * (int)(BLOCK_WIDTH), row * (int)(BLOCK_HEIGHT) + InfoBar.HEIGHT, (int)(BLOCK_WIDTH) - correctionX, (int)(BLOCK_HEIGHT) - correctionY);
-                    }
                 }
             }
+        }
+    }
+
+    public static Color getLineColor(){
+        switch(level){
+            case 1:
+                return new Color(147, 51, 211);
+            case 2:
+                return new Color(0, 98, 19);
+            default:
+                return new Color(0, 20, 147);
+        }
+    }
+
+    public static Color getFillColor(){
+        switch(level){
+            case 1:
+                return new Color(174, 81, 243);
+            case 2:
+                return new Color(18, 145, 46);
+            default:
+                return new Color(0, 29, 196, 255);
         }
     }
 }

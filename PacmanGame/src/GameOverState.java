@@ -1,19 +1,17 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.JLabel;
 
 public class GameOverState extends GameState {
 
-	private JLabel gameOverLabel;
 	private PlayerData player;
 	private boolean isActive;
 	private SparklesAnimator sparklesAnimator;
 
 	public GameOverState() {
-		gameOverLabel = new JLabel("Write your name");
-		gameOverLabel.setVisible(false);
 		isActive = true;
 		sparklesAnimator = new SparklesAnimator();
 	}
@@ -21,13 +19,11 @@ public class GameOverState extends GameState {
 	@Override
 	public void enter(Object memento) {
 		player = (PlayerData) memento;
-		gameOverLabel.setVisible(true);
 		isActive = true;
 	}
 
 	@Override
 	public void exit() {
-		gameOverLabel.setVisible(false);
 	}
 
 	@Override
@@ -53,6 +49,10 @@ public class GameOverState extends GameState {
 	@Override
 	public void render(GameFrameBuffer aGameFrameBuffer) {
 		Graphics2D g = aGameFrameBuffer.graphics();
+		Rectangle2D bounds;
+		String text;
+		int width = aGameFrameBuffer.getWidth();
+		int height = aGameFrameBuffer.getHeight();
 
 		sparklesAnimator.update();
 		sparklesAnimator.render(g);
@@ -70,11 +70,14 @@ public class GameOverState extends GameState {
 			e.printStackTrace();
 		}
 
-		String text = "GAME OVER";
-		int textWidth = g.getFontMetrics().stringWidth(text);
+		// title
+		text = player.isWon() ? "YOU WON!" : "GAME OVER";
+		bounds = g.getFontMetrics().getStringBounds(text, g);
+		int titleWidth = (int)bounds.getWidth();
+		int titleHeight = (int)bounds.getHeight();
 
 		// Draw title in the middle of the screen
-		g.drawString(text, (aGameFrameBuffer.getWidth() - textWidth) / 2, aGameFrameBuffer.getHeight() / 2 - 50);
+		g.drawString(text, (width - titleWidth) / 2, (height - titleHeight) / 2);
 
 		// Reset font for rest of the elements
 		g.setColor(Color.white);
@@ -87,11 +90,21 @@ public class GameOverState extends GameState {
 		} catch (FontFormatException | IOException e) {
 			e.printStackTrace();
 		}
+		// line 1
+		text = player.getPlayerName() + " has a score of: " + player.getPlayerScore();
+		bounds = g.getFontMetrics().getStringBounds(text, g);
+		int line1Width = (int)bounds.getWidth();
+		int line1Height = (int)bounds.getHeight();
 
-		g.drawString(player.getPlayerName() + " has a score of: " + player.getPlayerScore(), (aGameFrameBuffer.getWidth() - textWidth) / 2 + 160,
-				aGameFrameBuffer.getHeight() / 2 + 40);
+		// Draw line 1 under the title
+		g.drawString(text, (width - line1Width) / 2, height / 2 + titleHeight);
 
-		g.drawString("Press enter to play again and esc to exit the game", (aGameFrameBuffer.getWidth() - textWidth) / 2,
-				aGameFrameBuffer.getHeight() / 2 + 80);
+		// line 2
+		text = "Press enter to play again and esc to exit the game";
+		bounds = g.getFontMetrics().getStringBounds(text, g);
+		int line2Width = (int)bounds.getWidth();
+
+		// Draw line 2 under line 1
+		g.drawString(text, (width - line2Width) / 2, height / 2 + titleHeight + line1Height);
 	}
 }
