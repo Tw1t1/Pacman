@@ -3,7 +3,7 @@
 **JAVA PACMAN**
 
 Welcome to Java Pac-Man game! 
-This game features four screens: 
+This game features three screens: 
 1. Opening screen
 2. Play screen
 3. Game over screen
